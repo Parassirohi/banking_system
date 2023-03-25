@@ -10,9 +10,22 @@ class BranchSerializer(serializers.ModelSerializer):
         fields = ['ifsc', 'address', 'city', 'district', 'state']
 
 
+class SimpleBranchSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Branch
+        fields = '__all__'
+
+
 class PublicBankSerializer(serializers.ModelSerializer):
-    branches = BranchSerializer
 
     class Meta:
         model = PublicBank
-        fields = ['id', 'name', 'branches']
+        fields = ['id', 'name']
+
+
+class BankBranchSerializer(serializers.ModelSerializer):
+    branches = SimpleBranchSerializer(many=True)
+
+    class Meta:
+        model = PublicBank
+        fields = ['branches']

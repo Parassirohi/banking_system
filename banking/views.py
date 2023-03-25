@@ -1,11 +1,8 @@
 from django.shortcuts import render
 
 from rest_framework.viewsets import ModelViewSet
-
-from .models import *
 from .serializer import *
 from .pagination import DefaultPagination
-# Create your views here.
 
 
 class BranchViewSet(ModelViewSet):
@@ -15,7 +12,18 @@ class BranchViewSet(ModelViewSet):
 
 
 class PublicBankViewSet(ModelViewSet):
-    queryset = PublicBank.objects.all()
+    queryset = PublicBank.objects.prefetch_related('branches').all()
     serializer_class = PublicBankSerializer
     pagination_class = DefaultPagination
+
+
+class GetBranchViewSet(ModelViewSet):
+    serializer_class = SimpleBranchSerializer
+    pagination_class = DefaultPagination
+
+    def get_queryset(self):
+        print(self.kwargs)
+        return Branch.objects.filter(bank_id=self.kwargs['bank_id'])
+
+
 

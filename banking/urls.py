@@ -1,9 +1,15 @@
-from rest_framework.routers import SimpleRouter
+from django.urls import path
+
+from rest_framework_nested import routers
 from . import views
 
-router = SimpleRouter()
+router = routers.SimpleRouter()
 router.register('banks', views.PublicBankViewSet)
 router.register('branches', views.BranchViewSet)
 
-urlpatterns = router.urls
+urlpatterns = [
+    path('banks/<int:bank_id>/ifsc/', views.GetBranchViewSet.as_view({'get': 'list'})),
+
+]
+urlpatterns += router.urls
 

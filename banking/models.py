@@ -18,7 +18,7 @@ class Branch(models.Model):
     district = models.CharField(max_length=255)
     city = models.CharField(max_length=255)
     state = models.CharField(max_length=255)
-    bank = models.ForeignKey(PublicBank, on_delete=models.CASCADE)
+    bank = models.ForeignKey(PublicBank, on_delete=models.CASCADE, related_name='branches')
 
     class Meta:
         verbose_name_plural = 'Branches'
